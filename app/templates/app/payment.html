@@ -1,0 +1,75 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block about_content %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Payment Information</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f2f2f2;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            color: #333;
+        }
+        p {
+            margin-bottom: 10px;
+        }
+        #qr-code {
+            margin-top: 20px;
+        }
+        .btn {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+        <h2>Billing Information</h2>
+        <p>Name: {{ name }}</p>
+        <p>Email: {{ email }}</p>
+        <p>Address: {{ address }}, {{ city }}, {{ state }}, {{ zipcode }}, {{ country }}</p>
+        <p>Payment Method: {{ payment_method }}</p>
+        
+        <!-- Display QR code depending on payment method -->
+        {% if payment_method %}
+        <div id="qr-code">
+            <p>Scan the QR code below to complete the payment:</p>
+            <!-- Assuming you have a variable `qr_code_url` containing the URL of the QR code image from the server -->
+            <img src="{% static 'app/images/z5316863126391_ef2f82580798d5bd9236da271dfd9643.jpg' %}" style="width: 100px; height: 100px;" alt="QR Code" />
+        </div>
+        {% endif %}
+        
+        <!-- Payment confirmation button -->
+        <form id="confirm-payment-form" action="confirm-payment" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="payment_id" value="{{ payment_id }}">
+            <button type="submit"  class="btn" >Confirm Payment</button>
+        </form>
+        
+       
+        
+     
+</body>
+</html>
+{% endblock about_content %}
